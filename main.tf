@@ -102,7 +102,8 @@ resource "null_resource" "modify_kubeconfig" {
   provisioner "local-exec" {
     command = <<EOF
       scp -o  StrictHostKeyChecking=no -i ${local.ssh_private_key_path} root@${digitalocean_droplet.nodes[0].ipv4_address}:/etc/rancher/rke2/rke2.yaml ${local.kc_path}/${var.prefix}_kubeconfig.yaml
-      sed -i.bak 's|server: https://127.0.0.1:6443/server: https://${digitalocean_droplet.nodes[0].ipv4_address}:6443/g' ${local.kc_path}/${var.prefix}_kubeconfig.yaml
+      sed -i.bak 's|server: https://127.0.0.1:6443|server: https://${digitalocean_droplet.nodes[0].ipv4_address}:6443|g' ${local.kc_path}/${var.prefix}_kubeconfig.yaml
+
     EOF
   }
 }
